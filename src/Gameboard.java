@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
+import java.util.stream.Collectors;
 public class Gameboard {
-	final int width,height;
+	public final int width,height;
 	private ArrayList<Tile> tiles;
 	private ArrayList<Byte> initialTiles; // for the reset purposes. This stores the layout of the tips only
 	public Gameboard(int w, int h)
@@ -14,6 +16,26 @@ public class Gameboard {
 		// I guess a need a helper class for constructing random puzzles using the graph properties
 		Graph graph = new Graph(width,height);
 		
+	}
+	public ArrayList<Tile> getTiles()
+	{
+		return tiles;
+	}
+	public ArrayList<Byte> getInitialTiles()
+	{
+		return initialTiles;
+	}
+	public void asInitialLayout()
+	{
+		if(initialTiles.size() != tiles.size())
+		{
+			throw new RuntimeException("gameboard data corrupted");
+		}
+		Collection<Tile> curBoard = tiles;
+		
+		initialTiles = (ArrayList<Byte>) curBoard.stream()
+							.map(tile -> tile.getTips())
+							.collect(Collectors.toList());
 	}
 	public Gameboard(byte tips[][])
 	{

@@ -25,7 +25,12 @@ public class Graph
 		height = h;
 		this.tiles = tiles;
 	}
-	
+	public Graph(Gameboard gb)
+	{
+		height = gb.height;
+		width = gb.width;
+		tiles = gb.getTiles();
+	}
 	public abstract class Traverser
 	{
 		private ArrayList<Tile> visited;
